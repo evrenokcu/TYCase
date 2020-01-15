@@ -54,11 +54,37 @@ public class MoneyTests {
     @Test
     public void multiplyShouldReflectToTheAmount() {
         //given
-        Money money=Money.of(1.3);
+        Money money = Money.of(1.3);
         //when
         Money newAmount = money.multiply(NumberOfProducts.of(4));
         //then
         Assert.assertEquals(Money.of(5.2), newAmount);
+
+    }
+
+    @Test
+    public void validateGreaterThanOrEquals() {
+        Money money = Money.of(10.1);
+
+        Money bigger = Money.of(11.2);
+        Money smaller = Money.of(8.3);
+        Money equal = Money.of(10.1);
+
+        Assert.assertTrue(money.isGreaterThanOrEqual(smaller));
+        Assert.assertTrue(money.isGreaterThanOrEqual(equal));
+        Assert.assertFalse(money.isGreaterThanOrEqual(bigger));
+    }
+
+    @Test
+    public void validateDeduction() {
+        //given
+        Money amount = Money.of(1.2);
+        Money amountToDeduct = Money.of(0.1);
+        //when
+        Money result = amount.deduct(amountToDeduct);
+        //then
+        Assert.assertEquals(Money.of(1.1), result);
+
 
     }
 //    @Test

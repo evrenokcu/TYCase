@@ -22,7 +22,7 @@ public class Coupon extends ValueObject<Coupon> {
         return discount;
     }
 
-    public Coupon of(@NotNull Money minAmount, @NotNull Discount discount) {
+    public static Coupon of(@NotNull Money minAmount, @NotNull Discount discount) {
         return new Coupon(minAmount, discount);
     }
 

@@ -36,6 +36,8 @@ public class ProductInShoppingCart extends ValueObject<ProductInShoppingCart> {
         return result;
     }
 
+
+
     public static ProductInShoppingCart of(@NotNull Product product, @NotNull NumberOfProducts quantity) {
 
         if (NumberOfProducts.Zero == quantity) {

@@ -2,7 +2,6 @@ package shoppingcart.discount.calculators;
 
 import shoppingcart.cart.ShoppingCart;
 import shoppingcart.discount.Coupon;
-import shoppingcart.discount.Discount;
 import shoppingcart.shared.Money;
 
 public class CouponDiscountCalculator extends DiscountCalculator {
@@ -15,11 +14,32 @@ public class CouponDiscountCalculator extends DiscountCalculator {
 
     @Override
     protected Money doCalculateDiscount(ShoppingCart shoppingCart) {
-        return null;
+
+        Money sum = shoppingCart.getTotalAmount();
+        Money campaignDiscount = shoppingCart.getCampaignDiscount();
+        Money amountWithCampaignDiscount = sum.deduct(campaignDiscount);
+
+        Money totalDiscount = applyDiscount(amountWithCampaignDiscount, coupon.getDiscount());
+
+        shoppingCart.getShoppingCartItems().values().stream()
+                .forEach(shoppingCartItem -> {
+                    Money lineAmountWithCampaignDiscount = shoppingCartItem.getTotalPrice().deduct(shoppingCartItem.getCampaignDiscount());
+                    Money lineAmountCouponDiscount = Money.of(lineAmountWithCampaignDiscount.getAmount().multiply(totalDiscount.getAmount()).divide(amountWithCampaignDiscount.getAmount()));
+
+
+                    shoppingCartItem.applyCouponDiscount(lineAmountCouponDiscount);
+
+                });
+
+        return totalDiscount;
     }
 
     @Override
-    protected boolean checkCondition(ShoppingCart shoppingCart) {
-        return false;
+    protected boolean doCheckCondition(ShoppingCart shoppingCart) {
+
+        return shoppingCart.getTotalAmount().isGreaterThanOrEqual(coupon.getMinAmount());
+
     }
+
+
 }

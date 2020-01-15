@@ -1,5 +1,6 @@
 package shoppingcart.product;
 
+import org.jetbrains.annotations.NotNull;
 import shoppingcart.shared.Money;
 import shoppingcart.shared.ddd.ValueObject;
 
@@ -23,6 +24,10 @@ public class Product extends ValueObject<Product> {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return title;
+    }
 
     private Product(String title, Money price, Category category) {
         this.title = title;
@@ -42,15 +47,15 @@ public class Product extends ValueObject<Product> {
         return category;
     }
 
-    public static Product of(String title, Money price, Category category) {
-        if (null == title || title.length() == 0 || title.length() > 15) {
+    public static Product of(@NotNull String title, @NotNull Money price, @NotNull Category category) {
+        if (title.length() == 0 || title.length() > 15) {
             throw new IllegalArgumentException("Invalid product title");
         }
-        if (null == category) {
+        if (Category.None.equals(category)) {
             throw new IllegalArgumentException("Invalid  category");
         }
-        if (null == price) {
-            throw new IllegalArgumentException("Invalid pricee");
+        if (Money.Zero.equals(price)) {
+            throw new IllegalArgumentException("Invalid price");
         }
         return new Product(title, price, category);
     }

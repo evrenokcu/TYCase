@@ -21,20 +21,17 @@ public class CampaignDiscountCalculator extends DiscountCalculator {
                 .filter(shoppingCartItem ->
                         shoppingCartItem.getProductInShoppingCart().getProduct()
                                 .getCategory().isSubCategoryOrEquals(campaign.getCategory()))
-                .mapToDouble(shoppingCartItem -> shoppingCartItem.getTotalPrice().getAmount().doubleValue())
+                .mapToDouble(shoppingCartItem ->
+                        shoppingCartItem.applyCampaignDiscount(
+                                applyDiscount(shoppingCartItem.getTotalPrice(), campaign.getDiscount())).getAmount().doubleValue())
                 .sum();
-
-        return applyDiscount(Money.of(sum), campaign.getDiscount());
-
+        return Money.of(sum);
 
     }
 
-    private Money applyDiscount(Money amount, Discount discount) {
-        return discount.calculate(amount);
-    }
 
     @Override
-    protected boolean checkCondition(ShoppingCart shoppingCart) {
-        return false;
+    protected boolean doCheckCondition(ShoppingCart shoppingCart) {
+        return shoppingCart.getProductNumbers().isGreaterThanOrEqual(campaign.getNumberOfProducts());
     }
 }

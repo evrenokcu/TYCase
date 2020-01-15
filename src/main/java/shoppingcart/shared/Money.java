@@ -1,5 +1,6 @@
 package shoppingcart.shared;
 
+import org.jetbrains.annotations.NotNull;
 import shoppingcart.shared.ddd.ValueObject;
 
 import java.math.BigDecimal;
@@ -40,6 +41,15 @@ public class Money extends ValueObject<Money> {
         return result;
     }
 
+    @Override
+    public String toString() {
+        if (Money.Zero.equals(this)) {
+            return "0";
+        }
+        return amount.toString() + " TL";
+
+    }
+
     public Money percentageOf(BigDecimal percentage) {
         if (percentage.compareTo(BigDecimal.valueOf(100)) == 1 || percentage.compareTo(BigDecimal.valueOf(0)) == -1) {
             throw new IllegalArgumentException("Invalid Percentage");
@@ -54,15 +64,23 @@ public class Money extends ValueObject<Money> {
     }
 
 
-    public boolean isGreaterThan(Money money) {
+    public boolean isGreaterThan(@NotNull Money money) {
         return this.amount.compareTo(money.amount) == 1;
     }
 
-    public Money add(Money amount) {
+    public Money add(@NotNull Money amount) {
         return Money.of(this.amount.add(amount.amount));
     }
 
     public Money multiply(NumberOfProducts quantity) {
-        return Money.of(this.amount.multiply(BigDecimal.valueOf(quantity.getNumberOfProducts())));
+        return Money.of(this.amount.multiply(BigDecimal.valueOf(quantity.getValue())));
+    }
+
+    public boolean isGreaterThanOrEqual(@NotNull Money other) {
+        return this.getAmount().compareTo(other.amount) != -1;
+    }
+
+    public Money deduct(Money amount) {
+        return Money.of(this.getAmount().subtract(amount.getAmount()));
     }
 }

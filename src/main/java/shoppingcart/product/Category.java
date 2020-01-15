@@ -46,6 +46,11 @@ public class Category extends ValueObject<Category> {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return title;
+    }
+
     public String getTitle() {
         return title;
     }
