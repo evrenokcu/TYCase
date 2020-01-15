@@ -2,7 +2,7 @@ package shoppingcart.shared.ddd;
 
 import java.util.UUID;
 
-public abstract class Entity {
+public abstract class Entity<T extends Entity<T>> {
     protected UUID id=UUID.randomUUID();
 
     @Override

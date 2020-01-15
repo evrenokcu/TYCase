@@ -1,5 +1,7 @@
 package shoppingcart.shared.ddd;
 
+import shoppingcart.shared.Money;
+
 public abstract class ValueObject<T extends ValueObject<T>> {
 
     @Override
@@ -20,4 +22,6 @@ public abstract class ValueObject<T extends ValueObject<T>> {
     protected abstract boolean equalsCore(T other);
 
     protected abstract int hashCodeCore();
+
+
 }

@@ -1,6 +1,7 @@
-package shoppingcart.product;
+package shoppingcart.cart;
 
 import org.jetbrains.annotations.NotNull;
+import shoppingcart.product.Product;
 import shoppingcart.shared.NumberOfProducts;
 import shoppingcart.shared.ddd.ValueObject;
 
@@ -11,6 +12,14 @@ public class ProductInShoppingCart extends ValueObject<ProductInShoppingCart> {
     private ProductInShoppingCart(Product product, NumberOfProducts quantity) {
         this.product = product;
         this.quantity = quantity;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public NumberOfProducts getQuantity() {
+        return quantity;
     }
 
     @Override

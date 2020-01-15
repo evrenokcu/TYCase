@@ -1,4 +1,5 @@
 package shoppingcart.discount;
 
-public class DiscountType {
+public enum DiscountType {
+    Rate, Amount
 }
