@@ -61,4 +61,8 @@ public class Money extends ValueObject<Money> {
     public Money add(Money amount) {
         return Money.of(this.amount.add(amount.amount));
     }
+
+    public Money multiply(NumberOfProducts quantity) {
+        return Money.of(this.amount.multiply(BigDecimal.valueOf(quantity.getNumberOfProducts())));
+    }
 }

@@ -30,6 +30,18 @@ public class Product extends ValueObject<Product> {
         this.category = category;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public Money getPrice() {
+        return price;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
     public static Product of(String title, Money price, Category category) {
         if (null == title || title.length() == 0 || title.length() > 15) {
             throw new IllegalArgumentException("Invalid product title");

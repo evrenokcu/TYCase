@@ -25,5 +25,27 @@ public class CategoryTests {
         Assert.assertEquals(Category.None, Category.of("nuts").getParent());
     }
 
+    @Test
+    public void subCategoryChecks() {
+        //given
+        Category technology = Category.of("technology");
+
+        Category exported = Category.of("exported");
+        Category food = Category.of("food", exported);
+        Category nuts = Category.of("nuts", food);
+        //when
+        //then
+
+        //category should be equal to itself
+        Assert.assertTrue(nuts.isSubCategoryOrEquals(nuts));
+
+        Assert.assertTrue(nuts.isSubCategoryOrEquals(food));
+        Assert.assertTrue(nuts.isSubCategoryOrEquals(exported));
+
+        Assert.assertFalse(exported.isSubCategoryOrEquals(nuts));
+        Assert.assertFalse(nuts.isSubCategoryOrEquals(technology));
+
+
+    }
 
 }

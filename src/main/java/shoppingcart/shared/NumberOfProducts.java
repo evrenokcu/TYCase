@@ -34,4 +34,7 @@ public class NumberOfProducts extends ValueObject<NumberOfProducts> {
         return numberOfProducts;
     }
 
+    public NumberOfProducts add(NumberOfProducts quantity) {
+        return NumberOfProducts.of(this.numberOfProducts+quantity.numberOfProducts);
+    }
 }

@@ -2,6 +2,7 @@ package shoppingcart.cart;
 
 import org.jetbrains.annotations.NotNull;
 import shoppingcart.product.Product;
+import shoppingcart.shared.Money;
 import shoppingcart.shared.NumberOfProducts;
 import shoppingcart.shared.ddd.ValueObject;
 
@@ -41,5 +42,13 @@ public class ProductInShoppingCart extends ValueObject<ProductInShoppingCart> {
             throw new IllegalArgumentException("product in cart should have quantity greater than zero");
         }
         return new ProductInShoppingCart(product, quantity);
+    }
+
+    public ProductInShoppingCart addQuantity(NumberOfProducts quantity) {
+        return ProductInShoppingCart.of(this.product, this.quantity.add(quantity));
+    }
+
+    public Money getTotalPrice() {
+        return this.getProduct().getPrice().multiply(this.getQuantity());
     }
 }

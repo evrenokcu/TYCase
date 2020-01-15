@@ -1,5 +1,6 @@
 package shoppingcart.product;
 
+import org.jetbrains.annotations.NotNull;
 import shoppingcart.shared.ddd.ValueObject;
 
 //immutable category ddd value object
@@ -51,5 +52,19 @@ public class Category extends ValueObject<Category> {
 
     public Category getParent() {
         return parent;
+    }
+
+    public boolean isSubCategoryOrEquals(@NotNull Category category) {
+
+        if (this.equals(Category.None)) {
+            return false;
+        }
+        if (this.equals(category)) {
+            return true;
+        }
+        if (!Category.None.equals(this.getParent())) {
+            return this.getParent().isSubCategoryOrEquals(category);
+        }
+        return false;
     }
 }

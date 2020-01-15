@@ -46,22 +46,30 @@ public class MoneyTests {
 
     @Test
     public void amountShouldAddCorrectly() {
-        Money v1 = Money.of(11.3);
-        Money v2 = Money.of(10.1000).add(Money.of(1.2000));
-        Assert.assertEquals(
-                v1,
-                v2);
+        Money expected = Money.of(11.3);
+        Money actual = Money.of(10.1000).add(Money.of(1.2000));
+        Assert.assertEquals(expected, actual);
     }
 
     @Test
-    public void test() {
-        BigDecimal d1 = BigDecimal.valueOf(10.1000);
-        BigDecimal d2 = BigDecimal.valueOf(1.2000);
-
-        BigDecimal d3 = d1.add(d2);
-        Assert.assertEquals(BigDecimal.valueOf(11.3), d3);
+    public void multiplyShouldReflectToTheAmount() {
+        //given
+        Money money=Money.of(1.3);
+        //when
+        Money newAmount = money.multiply(NumberOfProducts.of(4));
+        //then
+        Assert.assertEquals(Money.of(5.2), newAmount);
 
     }
+//    @Test
+//    public void test() {
+//        BigDecimal d1 = BigDecimal.valueOf(10.1000);
+//        BigDecimal d2 = BigDecimal.valueOf(1.2000);
+//
+//        BigDecimal d3 = d1.add(d2);
+//        Assert.assertEquals(BigDecimal.valueOf(11.3), d3);
+//
+//    }
 
 
 }
