@@ -3,16 +3,16 @@ package shoppingcart.cart;
 import org.jetbrains.annotations.NotNull;
 import shoppingcart.discount.Campaign;
 import shoppingcart.discount.Coupon;
-import shoppingcart.discount.calculators.CampaignDiscountCalculator;
-import shoppingcart.discount.calculators.CouponDiscountCalculator;
+import shoppingcart.discount.calculators.DiscountResult;
+import shoppingcart.processors.CampaignProcessor;
+import shoppingcart.processors.CouponProcessor;
 import shoppingcart.processors.PrintProcessor;
-import shoppingcart.processors.ShoppingCartProcessor;
+import shoppingcart.product.Category;
 import shoppingcart.product.Product;
 import shoppingcart.shared.Money;
 import shoppingcart.shared.NumberOfProducts;
 import shoppingcart.shared.ddd.AggregateRoot;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,35 +55,27 @@ public class ShoppingCart extends AggregateRoot<ShoppingCart> {
 
     }
 
-    public NumberOfProducts getProductNumbers() {
-        long count = shoppingCartItems.values().stream()
-                .map(shoppingCartItem -> shoppingCartItem.getProductInShoppingCart().getProduct().getTitle())
-                .distinct()
-                .count();
-        return NumberOfProducts.of((int) count);
-
-    }
 
     public void applyCampaign(Campaign campaign) {
+        CampaignProcessor campaignProcessor = new CampaignProcessor(campaign);
+        campaignProcessor.process(this);
+    }
 
-        if (!this.getTotalAmount().isGreaterThan(Money.Zero)) {
-            throw new UnsupportedOperationException("Can not apply discount to an empty basket");
-        }
-
-        CampaignDiscountCalculator campaignDiscountCalculator = new CampaignDiscountCalculator(campaign);
-        Money discount = campaignDiscountCalculator.calculateDiscount(this);
-        this.campaignDiscount = this.campaignDiscount.add(discount);
-
+    public void applyCampaignDiscount(DiscountResult discountResult) {
+        this.campaignDiscount = this.campaignDiscount.add(discountResult.getTotalDiscount());
+        discountResult.getItemDiscounts().forEach(
+                (key, discount) -> this.shoppingCartItems.getOrDefault(key, null).applyCampaignDiscount(discount));
     }
 
     public void applyCoupon(Coupon coupon) {
-        if (!this.getTotalAmount().isGreaterThan(Money.Zero)) {
-            throw new UnsupportedOperationException("Can not apply discount to an empty basket");
-        }
+        CouponProcessor couponProcessor = new CouponProcessor(coupon);
+        couponProcessor.process(this);
+    }
 
-        CouponDiscountCalculator couponDiscountCalculator = new CouponDiscountCalculator(coupon);
-        Money discount = couponDiscountCalculator.calculateDiscount(this);
-        this.couponDiscount = discount;
+    public void applyCouponDiscountResult(DiscountResult discountResult) {
+        this.couponDiscount = discountResult.getTotalDiscount();
+        discountResult.getItemDiscounts().forEach(
+                (key, discount) -> this.shoppingCartItems.getOrDefault(key, null).applyCouponDiscount(discount));
     }
 
     public Money getCampaignDiscount() {
@@ -116,5 +108,27 @@ public class ShoppingCart extends AggregateRoot<ShoppingCart> {
     public void print() {
         PrintProcessor processor = new PrintProcessor();
         processor.process(this);
+    }
+
+    public NumberOfProducts getProductNumbers() {
+        long count = shoppingCartItems.values().stream()
+                .map(shoppingCartItem -> shoppingCartItem.getProductInShoppingCart().getProduct().getTitle())
+                .distinct()
+                .count();
+        return NumberOfProducts.of((int) count);
+
+    }
+
+    public NumberOfProducts getProductNumbers(Category category) {
+        long count = shoppingCartItems.values().stream()
+                .filter(shoppingCartItem -> shoppingCartItem.getProductInShoppingCart().getProduct().getCategory().isSubCategoryOrEquals(category))
+                .map(shoppingCartItem -> shoppingCartItem.getProductInShoppingCart().getProduct().getTitle())
+                .distinct()
+                .count();
+        return NumberOfProducts.of((int) count);
+    }
+
+    public Money getAmountAfterCampaignDiscount() {
+        return this.getTotalAmount().deduct(this.getCampaignDiscount());
     }
 }

@@ -5,6 +5,7 @@ import shoppingcart.cart.ShoppingCartItem;
 import shoppingcart.shared.Money;
 
 import javax.swing.*;
+import java.sql.SQLOutput;
 import java.util.Comparator;
 
 public class PrintProcessor extends ShoppingCartProcessor {
@@ -25,11 +26,7 @@ public class PrintProcessor extends ShoppingCartProcessor {
 
     }
 
-    @Override
-    Comparator<ShoppingCartItem> getShoppingCartItemComparator() {
-        Comparator<ShoppingCartItem> comparator = Comparator.comparing(item -> item.getProductInShoppingCart().getProduct().getCategory().getTitle());
-        return comparator;
-    }
+
 
     @Override
     protected void process(ShoppingCartItem shoppingCartItem) {
@@ -45,14 +42,16 @@ public class PrintProcessor extends ShoppingCartProcessor {
 
     @Override
     protected void afterProcess(ShoppingCart shoppingCart) {
-        System.out.format("%-25s %18s%n", "Total:", shoppingCart.getTotalAmount());
+        System.out.format("%-25s %25s%n", "Total:", shoppingCart.getTotalAmount());
         Money totalDiscount = shoppingCart.getCouponDiscount().add(shoppingCart.getCampaignDiscount());
 //        if (!Money.Zero.equals(totalDiscount)) {
-        System.out.format("%-25s %18s%n", "Discount:", String.format("%s(%s,%s)", totalDiscount, shoppingCart.getCampaignDiscount(), shoppingCart.getCouponDiscount()));
-        System.out.format("%-25s %18s%n", "Amount with Discount", shoppingCart.getTotalAmountAfterDiscount());
+        System.out.format("%-25s %25s%n", "Discount:", String.format("%s(%s,%s)", totalDiscount, shoppingCart.getCampaignDiscount(), shoppingCart.getCouponDiscount()));
+        System.out.format("%-25s %25s%n", "Amount with Discount", shoppingCart.getTotalAmountAfterDiscount());
 //        }
-        System.out.format("%-25s %18s%n", "Delivery Cost:", shoppingCart.getDeliveryCost());
-        System.out.format("%-25s %18s%n", "Grand Total:", shoppingCart.getTotalAmountAfterDiscount().add(shoppingCart.getDeliveryCost()));
+        System.out.format("%-25s %25s%n", "Delivery Cost:", shoppingCart.getDeliveryCost());
+        System.out.println("...................................................");
+        System.out.format("%-25s %25s%n", "Grand Total:", shoppingCart.getTotalAmountAfterDiscount().add(shoppingCart.getDeliveryCost()));
+
 
     }
 }

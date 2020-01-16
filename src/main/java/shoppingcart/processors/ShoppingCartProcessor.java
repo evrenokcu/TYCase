@@ -32,7 +32,16 @@ public abstract class ShoppingCartProcessor {
     protected void beforeProcess(ShoppingCart shoppingCart) {
     }
 
-    abstract Comparator<ShoppingCartItem> getShoppingCartItemComparator();
+    protected Comparator<ShoppingCartItem> getShoppingCartItemComparator() {
+        return compareByTitle();
+    }
 
+    private Comparator<ShoppingCartItem> compareByTitle() {
+        Comparator<ShoppingCartItem> comparator = Comparator.comparing(item -> item.getProductInShoppingCart().getProduct().getCategory().getTitle());
+        return comparator;
+    }
 
+    public final void setNext(ShoppingCartProcessor next) {
+        this.next = next;
+    }
 }

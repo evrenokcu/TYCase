@@ -30,9 +30,9 @@ public class ShoppingCartItem extends Entity<ShoppingCartItem> {
         this.couponDiscount = this.couponDiscount.add(discountAmount);
     }
 
-    public Money applyCampaignDiscount(@NotNull Money discountAmount) {
+    public void applyCampaignDiscount(@NotNull Money discountAmount) {
         this.campaignDiscount = this.campaignDiscount.add(discountAmount);
-        return this.campaignDiscount;
+
     }
 
     public ShoppingCartItem addQuantity(@NotNull NumberOfProducts quantity) {
@@ -47,4 +47,6 @@ public class ShoppingCartItem extends Entity<ShoppingCartItem> {
     public Money getTotalDiscount() {
         return getCouponDiscount().add(getCampaignDiscount());
     }
+
+
 }

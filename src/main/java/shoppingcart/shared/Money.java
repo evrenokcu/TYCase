@@ -32,8 +32,13 @@ public class Money extends ValueObject<Money> {
         return of(BigDecimal.valueOf(amount));
     }
 
-    protected boolean equalsCore(Money other) {
-        return amount.equals(other.amount);
+    public static Money of(int amount) {
+        return of(BigDecimal.valueOf(amount));
+    }
+
+    protected boolean equalsCore(@NotNull Money other) {
+
+        return (amount.compareTo(other.amount) == 0);
     }
 
     protected int hashCodeCore() {
@@ -83,4 +88,6 @@ public class Money extends ValueObject<Money> {
     public Money deduct(Money amount) {
         return Money.of(this.getAmount().subtract(amount.getAmount()));
     }
+
+
 }

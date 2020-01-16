@@ -7,8 +7,6 @@ import shoppingcart.product.Product;
 import shoppingcart.shared.Money;
 import shoppingcart.shared.NumberOfProducts;
 
-import java.util.Queue;
-
 public class ShoppingCartItemTest {
 
     @Test
