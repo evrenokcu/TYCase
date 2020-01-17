@@ -52,6 +52,21 @@ public class ShoppingCartItemTest {
     }
 
     @Test
+    public void applyingCouponDiscountAgainShouldReplaceTheDiscountValue() {
+        //given
+        ShoppingCartItem shoppingCartItem = new ShoppingCartItem(
+                ProductInShoppingCart.of(
+                        Product.of("almond", Money.of(10.2), Category.of("nuts")),
+                        NumberOfProducts.of(2)));
+        //when
+        shoppingCartItem.applyCouponDiscount(Money.of(34));
+        shoppingCartItem.applyCouponDiscount(Money.of(2.1));
+        //then
+        Assert.assertEquals(Money.of(2.1), shoppingCartItem.getCouponDiscount());
+
+    }
+
+    @Test
     public void shoppingCartItemAddQuantityShouldAddToSum() {
         //given
         ShoppingCartItem shoppingCartItem = new ShoppingCartItem(

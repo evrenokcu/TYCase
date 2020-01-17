@@ -88,7 +88,8 @@ public class MoneyTests {
 
     }
 //    @Test
-//    public void test() {
+//    public void reason of conversion from doubleToBigDecimal() {
+
 //        BigDecimal d1 = BigDecimal.valueOf(10.1000);
 //        BigDecimal d2 = BigDecimal.valueOf(1.2000);
 //

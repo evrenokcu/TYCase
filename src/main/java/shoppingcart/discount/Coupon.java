@@ -14,6 +14,10 @@ public class Coupon extends ValueObject<Coupon> {
         this.discount = discount;
     }
 
+    public static Coupon of(@NotNull Money minAmount, @NotNull Discount discount) {
+        return new Coupon(minAmount, discount);
+    }
+
     public Money getMinAmount() {
         return minAmount;
     }
@@ -21,11 +25,6 @@ public class Coupon extends ValueObject<Coupon> {
     public Discount getDiscount() {
         return discount;
     }
-
-    public static Coupon of(@NotNull Money minAmount, @NotNull Discount discount) {
-        return new Coupon(minAmount, discount);
-    }
-
 
     @Override
     protected boolean equalsCore(Coupon other) {

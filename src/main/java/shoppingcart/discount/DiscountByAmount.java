@@ -5,6 +5,7 @@ import shoppingcart.shared.Money;
 import java.math.BigDecimal;
 
 public class DiscountByAmount extends Discount {
+
     public DiscountByAmount(BigDecimal discountValue) {
         super(discountValue, DiscountType.Amount);
         if (discountValue.compareTo(BigDecimal.valueOf(0)) != 1) {

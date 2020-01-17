@@ -12,7 +12,6 @@ public class DiscountByRate extends Discount {
         if (discountValue.compareTo(BigDecimal.valueOf(0)) != 1 || discountValue.compareTo(BigDecimal.valueOf(100)) == 100) {
             throw new IllegalArgumentException("Discount Rate out of bounds");
         }
-
     }
 
     @Override

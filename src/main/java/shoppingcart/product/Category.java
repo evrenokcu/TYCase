@@ -33,6 +33,15 @@ public class Category extends ValueObject<Category> {
         return new Category(title, category);
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public Category getParent() {
+        return parent;
+    }
+
+
     @Override
     protected boolean equalsCore(Category other) {
         if (!title.equals(other.title)) return false;
@@ -49,14 +58,6 @@ public class Category extends ValueObject<Category> {
     @Override
     public String toString() {
         return title;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public Category getParent() {
-        return parent;
     }
 
     public boolean isSubCategoryOrEquals(@NotNull Category category) {

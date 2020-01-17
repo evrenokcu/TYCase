@@ -4,12 +4,8 @@ import shoppingcart.cart.ShoppingCart;
 import shoppingcart.cart.ShoppingCartItem;
 import shoppingcart.shared.Money;
 
-import javax.swing.*;
-import java.sql.SQLOutput;
-import java.util.Comparator;
-
 public class PrintProcessor extends ShoppingCartProcessor {
-    String format = "%-15s %-15s %8s %14s %14s %37s %n";
+    String format = "%-15s %-15s %8s %14s %14s %37s %15s%n";
 
     @Override
     protected void beforeProcess(ShoppingCart shoppingCart) {
@@ -20,13 +16,10 @@ public class PrintProcessor extends ShoppingCartProcessor {
                 "Quantity",
                 "Unit Price",
                 "Total Price",
-                "Total Discount(coupon, campaign)"
-
+                "Total Discount(coupon, campaign)",
+                "Line Total"
         );
-
     }
-
-
 
     @Override
     protected void process(ShoppingCartItem shoppingCartItem) {
@@ -36,7 +29,8 @@ public class PrintProcessor extends ShoppingCartProcessor {
                 shoppingCartItem.getProductInShoppingCart().getQuantity(),
                 shoppingCartItem.getProductInShoppingCart().getProduct().getPrice(),
                 shoppingCartItem.getProductInShoppingCart().getTotalPrice(),
-                String.format("%s (%s, %s)", shoppingCartItem.getTotalDiscount(), shoppingCartItem.getCouponDiscount(), shoppingCartItem.getCampaignDiscount())
+                String.format("%s (%s, %s)", shoppingCartItem.getTotalDiscount(), shoppingCartItem.getCouponDiscount(), shoppingCartItem.getCampaignDiscount()),
+                shoppingCartItem.getTotalPrice().deduct(shoppingCartItem.getTotalDiscount())
         );
     }
 
@@ -44,14 +38,10 @@ public class PrintProcessor extends ShoppingCartProcessor {
     protected void afterProcess(ShoppingCart shoppingCart) {
         System.out.format("%-25s %25s%n", "Total:", shoppingCart.getTotalAmount());
         Money totalDiscount = shoppingCart.getCouponDiscount().add(shoppingCart.getCampaignDiscount());
-//        if (!Money.Zero.equals(totalDiscount)) {
-        System.out.format("%-25s %25s%n", "Discount:", String.format("%s(%s,%s)", totalDiscount, shoppingCart.getCampaignDiscount(), shoppingCart.getCouponDiscount()));
+        System.out.format("%-25s %25s%n", "Discount:", String.format("%s(%s,%s)", totalDiscount, shoppingCart.getCouponDiscount(), shoppingCart.getCampaignDiscount()));
         System.out.format("%-25s %25s%n", "Amount with Discount", shoppingCart.getTotalAmountAfterDiscount());
-//        }
         System.out.format("%-25s %25s%n", "Delivery Cost:", shoppingCart.getDeliveryCost());
         System.out.println("...................................................");
         System.out.format("%-25s %25s%n", "Grand Total:", shoppingCart.getTotalAmountAfterDiscount().add(shoppingCart.getDeliveryCost()));
-
-
     }
 }

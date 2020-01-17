@@ -8,16 +8,16 @@ import java.util.Comparator;
 public abstract class ShoppingCartProcessor {
     ShoppingCartProcessor next;
 
+    public final void setNext(ShoppingCartProcessor next) {
+        this.next = next;
+    }
 
     public final void process(ShoppingCart shoppingCart) {
         beforeProcess(shoppingCart);
-
         shoppingCart.getShoppingCartItems().values().stream()
                 .sorted(getShoppingCartItemComparator())
                 .forEach(shoppingCartItem -> process(shoppingCartItem));
-
         afterProcess(shoppingCart);
-
         if (null != next) {
             next.process(shoppingCart);
         }
@@ -39,9 +39,5 @@ public abstract class ShoppingCartProcessor {
     private Comparator<ShoppingCartItem> compareByTitle() {
         Comparator<ShoppingCartItem> comparator = Comparator.comparing(item -> item.getProductInShoppingCart().getProduct().getCategory().getTitle());
         return comparator;
-    }
-
-    public final void setNext(ShoppingCartProcessor next) {
-        this.next = next;
     }
 }

@@ -15,12 +15,28 @@ public class ProductInShoppingCart extends ValueObject<ProductInShoppingCart> {
         this.quantity = quantity;
     }
 
+    public static ProductInShoppingCart of(@NotNull Product product, @NotNull NumberOfProducts quantity) {
+
+        if (NumberOfProducts.Zero == quantity) {
+            throw new IllegalArgumentException("product in cart should have quantity greater than zero");
+        }
+        return new ProductInShoppingCart(product, quantity);
+    }
+
     public Product getProduct() {
         return product;
     }
 
     public NumberOfProducts getQuantity() {
         return quantity;
+    }
+
+    public Money getTotalPrice() {
+        return this.getProduct().getPrice().multiply(this.getQuantity());
+    }
+
+    public ProductInShoppingCart addQuantity(NumberOfProducts quantity) {
+        return ProductInShoppingCart.of(this.product, this.quantity.add(quantity));
     }
 
     @Override
@@ -37,20 +53,4 @@ public class ProductInShoppingCart extends ValueObject<ProductInShoppingCart> {
     }
 
 
-
-    public static ProductInShoppingCart of(@NotNull Product product, @NotNull NumberOfProducts quantity) {
-
-        if (NumberOfProducts.Zero == quantity) {
-            throw new IllegalArgumentException("product in cart should have quantity greater than zero");
-        }
-        return new ProductInShoppingCart(product, quantity);
-    }
-
-    public ProductInShoppingCart addQuantity(NumberOfProducts quantity) {
-        return ProductInShoppingCart.of(this.product, this.quantity.add(quantity));
-    }
-
-    public Money getTotalPrice() {
-        return this.getProduct().getPrice().multiply(this.getQuantity());
-    }
 }

@@ -3,15 +3,12 @@ package shoppingcart.shared;
 import shoppingcart.shared.ddd.ValueObject;
 
 public class NumberOfProducts extends ValueObject<NumberOfProducts> {
-    private int value;
+
     public static final NumberOfProducts Zero = NumberOfProducts.of(0);
+    private int value;
 
     private NumberOfProducts(int value) {
         this.value = value;
-    }
-
-    public int getValue() {
-        return value;
     }
 
     public static NumberOfProducts of(int numberOfProducts) {
@@ -22,6 +19,11 @@ public class NumberOfProducts extends ValueObject<NumberOfProducts> {
             return Zero;
         }
         return new NumberOfProducts(numberOfProducts);
+    }
+
+
+    public int getValue() {
+        return value;
     }
 
     @Override

@@ -8,6 +8,10 @@ import shoppingcart.shared.Money;
 public abstract class DiscountCalculator {
     protected DiscountResult discountResult = new DiscountResult();
 
+    public DiscountResult getDiscountResult() {
+        return discountResult;
+    }
+
     public Money calculateDiscount(ShoppingCart shoppingCart) {
         if (!this.doCheckCondition(shoppingCart)) {
             return Money.Zero;
@@ -17,13 +21,6 @@ public abstract class DiscountCalculator {
 
         return this.discountResult.getTotalDiscount();
     }
-
-    protected void doCalculateDiscount(ShoppingCart shoppingCart) {
-
-    }
-
-
-    protected abstract void doCalculateDiscount(ShoppingCart shoppingCart, ShoppingCartItem shoppingCartItem);
 
     protected boolean doCheckCondition(ShoppingCart shoppingCart) {
         return true;
@@ -37,7 +34,9 @@ public abstract class DiscountCalculator {
         return true;
     }
 
-    public DiscountResult getDiscountResult() {
-        return discountResult;
-    }
+    protected abstract void doCalculateDiscount(ShoppingCart shoppingCart);
+
+    protected abstract void doCalculateDiscount(ShoppingCart shoppingCart, ShoppingCartItem shoppingCartItem);
+
+
 }

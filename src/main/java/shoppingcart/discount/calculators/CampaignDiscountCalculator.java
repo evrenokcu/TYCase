@@ -33,6 +33,11 @@ public class CampaignDiscountCalculator extends DiscountCalculator {
     }
 
     @Override
+    protected void doCalculateDiscount(ShoppingCart shoppingCart) {
+
+    }
+
+    @Override
     protected boolean doCheckCondition(ShoppingCart shoppingCart) {
         if (!shoppingCart.getTotalAmount().isGreaterThan(Money.Zero)) {
             throw new UnsupportedOperationException("Can not apply discount to an empty basket");

@@ -10,6 +10,10 @@ public class ShoppingCartItem extends Entity<ShoppingCartItem> {
     private Money couponDiscount = Money.Zero;
     private Money campaignDiscount = Money.Zero;
 
+    public ShoppingCartItem(@NotNull ProductInShoppingCart productInShoppingCart) {
+        this.productInShoppingCart = productInShoppingCart;
+    }
+
     public ProductInShoppingCart getProductInShoppingCart() {
         return productInShoppingCart;
     }
@@ -22,24 +26,6 @@ public class ShoppingCartItem extends Entity<ShoppingCartItem> {
         return campaignDiscount;
     }
 
-    public ShoppingCartItem(@NotNull ProductInShoppingCart productInShoppingCart) {
-        this.productInShoppingCart = productInShoppingCart;
-    }
-
-    public void applyCouponDiscount(@NotNull Money discountAmount) {
-        this.couponDiscount = this.couponDiscount.add(discountAmount);
-    }
-
-    public void applyCampaignDiscount(@NotNull Money discountAmount) {
-        this.campaignDiscount = this.campaignDiscount.add(discountAmount);
-
-    }
-
-    public ShoppingCartItem addQuantity(@NotNull NumberOfProducts quantity) {
-        productInShoppingCart = productInShoppingCart.addQuantity(quantity);
-        return this;
-    }
-
     public Money getTotalPrice() {
         return productInShoppingCart.getTotalPrice();
     }
@@ -49,4 +35,16 @@ public class ShoppingCartItem extends Entity<ShoppingCartItem> {
     }
 
 
+    public void applyCouponDiscount(@NotNull Money discountAmount) {
+        this.couponDiscount = discountAmount;
+    }
+
+    public void applyCampaignDiscount(@NotNull Money discountAmount) {
+        this.campaignDiscount = this.campaignDiscount.add(discountAmount);
+    }
+
+    public ShoppingCartItem addQuantity(@NotNull NumberOfProducts quantity) {
+        productInShoppingCart = productInShoppingCart.addQuantity(quantity);
+        return this;
+    }
 }

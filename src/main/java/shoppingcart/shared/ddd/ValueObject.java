@@ -1,14 +1,11 @@
 package shoppingcart.shared.ddd;
 
-import shoppingcart.shared.Money;
-
 public abstract class ValueObject<T extends ValueObject<T>> {
 
     @Override
     public int hashCode() {
         return hashCodeCore();
     }
-
 
     @Override
     public boolean equals(Object obj) {

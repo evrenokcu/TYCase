@@ -14,16 +14,6 @@ public class CouponProcessor extends ShoppingCartProcessor {
     }
 
     @Override
-    protected void afterProcess(ShoppingCart shoppingCart) {
-        super.afterProcess(shoppingCart);
-    }
-
-    @Override
-    protected void process(ShoppingCartItem shoppingCartItem) {
-        super.process(shoppingCartItem);
-    }
-
-    @Override
     protected void beforeProcess(ShoppingCart shoppingCart) {
         CouponDiscountCalculator couponDiscountCalculator = new CouponDiscountCalculator(this.coupon);
         couponDiscountCalculator.calculateDiscount(shoppingCart);

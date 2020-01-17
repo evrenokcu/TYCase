@@ -44,8 +44,6 @@ public class CategoryTests {
 
         Assert.assertFalse(exported.isSubCategoryOrEquals(nuts));
         Assert.assertFalse(nuts.isSubCategoryOrEquals(technology));
-
-
     }
 
 }

@@ -1,5 +1,6 @@
-package shoppingcart.cart;
+package shoppingcart.discount.calculators;
 
+import shoppingcart.cart.ShoppingCart;
 import shoppingcart.shared.Money;
 
 import java.math.BigDecimal;

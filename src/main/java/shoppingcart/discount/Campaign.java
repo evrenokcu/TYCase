@@ -16,6 +16,10 @@ public class Campaign extends ValueObject<Campaign> {
         this.discount = discount;
     }
 
+    public static Campaign of(@NotNull Category category, @NotNull NumberOfProducts numberOfProducts, @NotNull Discount discount) {
+        return new Campaign(category, numberOfProducts, discount);
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -28,9 +32,6 @@ public class Campaign extends ValueObject<Campaign> {
         return discount;
     }
 
-    public static Campaign of(@NotNull Category category, @NotNull NumberOfProducts numberOfProducts, @NotNull Discount discount) {
-        return new Campaign(category, numberOfProducts, discount);
-    }
 
     @Override
     protected boolean equalsCore(Campaign other) {
@@ -46,6 +47,4 @@ public class Campaign extends ValueObject<Campaign> {
         result = 31 * result + discount.hashCode();
         return result;
     }
-
-
 }

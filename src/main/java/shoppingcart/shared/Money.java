@@ -7,15 +7,11 @@ import java.math.BigDecimal;
 
 public class Money extends ValueObject<Money> {
 
-    private BigDecimal amount;
     public static final Money Zero = Money.of(BigDecimal.valueOf(0));
+    private BigDecimal amount;
 
     private Money(BigDecimal amount) {
         this.amount = amount;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
     }
 
     public static Money of(BigDecimal amount) {
@@ -36,8 +32,11 @@ public class Money extends ValueObject<Money> {
         return of(BigDecimal.valueOf(amount));
     }
 
-    protected boolean equalsCore(@NotNull Money other) {
+    public BigDecimal getAmount() {
+        return amount;
+    }
 
+    protected boolean equalsCore(@NotNull Money other) {
         return (amount.compareTo(other.amount) == 0);
     }
 
@@ -52,7 +51,6 @@ public class Money extends ValueObject<Money> {
             return "0";
         }
         return amount.toString() + " TL";
-
     }
 
     public Money percentageOf(BigDecimal percentage) {
@@ -65,9 +63,7 @@ public class Money extends ValueObject<Money> {
 
     public Money percentageOf(double percentage) {
         return percentageOf(BigDecimal.valueOf(percentage));
-
     }
-
 
     public boolean isGreaterThan(@NotNull Money money) {
         return this.amount.compareTo(money.amount) == 1;
